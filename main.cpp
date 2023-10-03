@@ -21,6 +21,13 @@ struct Studentas {
     int egzamino_rezultatas;
 };
 
+bool lyginimasPagalVardus(const Studentas& a, const Studentas& b) {
+    if (a.vardas == b.vardas) {
+        return a.pavarde < b.pavarde;
+    }
+    return a.vardas < b.vardas;
+}
+
 double skaiciuotiGalutiniVidurki(const vector<int>& namu_darbai, int egzamino_rezultatas) {
     double namuDarbuVidurkis = 0.0;
     if (!namu_darbai.empty()) {
@@ -55,7 +62,7 @@ void skaitytiDuomenisIsFailo(const string& failoPavadinimas, vector<Studentas>& 
     }
 
     string eilute;
-    getline(failas, eilute); // Nuskaitome pirmą eilutę, kurioje yra stulpelių pavadinimai
+    getline(failas, eilute); 
 
     while (getline(failas, eilute)) {
         istringstream iss(eilute);
@@ -152,6 +159,8 @@ int main() {
 
         skaitytiDuomenisIsFailo(failoPavadinimas, studentai);
     }
+
+    sort(studentai.begin(), studentai.end(), lyginimasPagalVardus);
 
     cout << "\nGalutiniai rezultatai:\n";
     cout << left << setw(15) << "Vardas" << setw(15) << "Pavarde" << setw(20) << "Galutinis (Vid.)" << setw(20) << "Galutinis (Med.)" << endl;
