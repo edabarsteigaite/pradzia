@@ -13,7 +13,7 @@ struct Studentas {
     int egzamino_rezultatas;
 };
 
-double skaiciuotiGalutiniBala(const vector<int>& namu_darbai, int egzamino_rezultatas) {
+double skaiciuotiGalutiniVidurki(const vector<int>& namu_darbai, int egzamino_rezultatas) {
     double namuDarbuVidurkis = 0.0;
     if (!namu_darbai.empty()) {
         for (int rezultatas : namu_darbai) {
@@ -70,7 +70,8 @@ int main() {
 
         cout << "Ar norite ivesti dar viena studenta? (t/n): ";
         cin >> testi;
-    } while (testi == 't' || testi == 'T');
+    } while (testi == 't');
+
     char pasirinkimas;
     cout << "\nPasirinkite galutinio balo skaiciavimo metoda (v - vidurkis, m - mediana): ";
     cin >> pasirinkimas;
@@ -80,12 +81,9 @@ int main() {
     cout << string(45, '-') << endl;
 
     for (const Studentas& studentas : studentai) {
-        double galutinisBalas;
-        if (pasirinkimas == 'v') {
-            galutinisBalas = skaiciuotiGalutiniBala(studentas.namu_darbai, studentas.egzamino_rezultatas);
-        } else if (pasirinkimas == 'm') {
-            galutinisBalas = skaiciuotiGalutiniMediana(studentas.namu_darbai, studentas.egzamino_rezultatas);
-        }
+        double galutinisBalas = (pasirinkimas == 'v') ?
+                                skaiciuotiGalutiniVidurki(studentas.namu_darbai, studentas.egzamino_rezultatas) :
+                                skaiciuotiGalutiniMediana(studentas.namu_darbai, studentas.egzamino_rezultatas);
         cout << setw(15) << studentas.vardas << setw(15) << studentas.pavarde << fixed << setprecision(2) << setw(15) << galutinisBalas << endl;
     }
 
