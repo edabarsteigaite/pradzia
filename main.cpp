@@ -3,13 +3,19 @@
 #include <vector>
 #include <iomanip>
 #include <algorithm>
+#include <ctime>
+#include <cstdlib>
 
 using namespace std;
+
+int generuotiAtsitiktiniBalai(int min, int max) {
+    return rand() % (max - min + 1) + min;
+}
 
 struct Studentas {
     string vardas;
     string pavarde;
-    vector<int> namu_darbai; 
+    vector<int> namu_darbai;
     int egzamino_rezultatas;
 };
 
@@ -21,7 +27,6 @@ double skaiciuotiGalutiniVidurki(const vector<int>& namu_darbai, int egzamino_re
         }
         namuDarbuVidurkis /= namu_darbai.size();
     }
-
     return 0.4 * namuDarbuVidurkis + 0.6 * egzamino_rezultatas;
 }
 
@@ -44,6 +49,8 @@ int main() {
     vector<Studentas> studentai;
     char testi;
 
+    srand(time(0));
+
     do {
         Studentas naujasStudentas;
 
@@ -53,24 +60,42 @@ int main() {
         cout << "Iveskite studento pavarde: ";
         cin >> naujasStudentas.pavarde;
 
-        int namuDarbuRezultatas;
-        cout << "Iveskite namu darbu rezultatus (iveskite -1, jei norite baigti): ";
-        while (true) {
-            cin >> namuDarbuRezultatas;
-            if (namuDarbuRezultatas == -1) {
-                break;
-            }
-            naujasStudentas.namu_darbai.push_back(namuDarbuRezultatas);
-        }
+        char pasirinkimas;
+        cout << "Pasirinkite balu ivedimo buda (r - ranka, a - atsitiktinai): ";
+        cin >> pasirinkimas;
 
-        cout << "Iveskite egzamino rezultata: ";
-        cin >> naujasStudentas.egzamino_rezultatas;
+        if (pasirinkimas == 'r') {
+            cout << "Iveskite namu darbu rezultatus (iveskite -1, jei norite baigti): ";
+            int namuDarbuRezultatas;
+            while (true) {
+                cin >> namuDarbuRezultatas;
+                if (namuDarbuRezultatas == -1) {
+                    break;
+                }
+                naujasStudentas.namu_darbai.push_back(namuDarbuRezultatas);
+            }
+
+            cout << "Iveskite egzamino rezultata: ";
+            cin >> naujasStudentas.egzamino_rezultatas;
+        } else if (pasirinkimas == 'a') {
+            int namuDarbuSkaicius = generuotiAtsitiktiniBalai(1, 10);
+            cout << "Generuoti atsitiktiniai namu darbu rezultatai (" << namuDarbuSkaicius << "): ";
+            for (int i = 0; i < namuDarbuSkaicius; i++) {
+                int balas = generuotiAtsitiktiniBalai(1, 10);
+                naujasStudentas.namu_darbai.push_back(balas);
+                cout << balas << " ";
+            }
+            cout << endl;
+
+            naujasStudentas.egzamino_rezultatas = generuotiAtsitiktiniBalai(1, 10);
+            cout << "Generuotas atsitiktinis egzamino rezultatas: " << naujasStudentas.egzamino_rezultatas << endl;
+        }
 
         studentai.push_back(naujasStudentas);
 
         cout << "Ar norite ivesti dar viena studenta? (t/n): ";
         cin >> testi;
-    } while (testi == 't');
+    } while (testi == 't' || testi == 'T');
 
     char pasirinkimas;
     cout << "\nPasirinkite galutinio balo skaiciavimo metoda (v - vidurkis, m - mediana): ";
@@ -89,3 +114,4 @@ int main() {
 
     return 0;
 }
+
