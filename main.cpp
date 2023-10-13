@@ -1,90 +1,14 @@
 #include <iostream>
-#include <fstream>
-#include <string>
 #include <vector>
 #include <iomanip>
-#include <algorithm>
-#include <sstream>
 #include <ctime>
 #include <cstdlib>
+#include <algorithm> 
+#include "studentas.h"
 
 using namespace std;
+int generuotiAtsitiktiniBalai(int min, int max);
 
-int generuotiAtsitiktiniBalai(int min, int max) {
-    return rand() % (max - min + 1) + min;
-}
-
-struct Studentas {
-    string vardas;
-    string pavarde;
-    vector<int> namu_darbai;
-    int egzamino_rezultatas;
-};
-
-bool lyginimasPagalVardus(const Studentas& a, const Studentas& b) {
-    if (a.vardas == b.vardas) {
-        return a.pavarde < b.pavarde;
-    }
-    return a.vardas < b.vardas;
-}
-
-double skaiciuotiGalutiniVidurki(const vector<int>& namu_darbai, int egzamino_rezultatas) {
-    double namuDarbuVidurkis = 0.0;
-    if (!namu_darbai.empty()) {
-        for (int rezultatas : namu_darbai) {
-            namuDarbuVidurkis += rezultatas;
-        }
-        namuDarbuVidurkis /= namu_darbai.size();
-    }
-    return 0.4 * namuDarbuVidurkis + 0.6 * egzamino_rezultatas;
-}
-
-double skaiciuotiGalutiniMediana(const vector<int>& namu_darbai, int egzamino_rezultatas) {
-    vector<int> surikiuoti_namu_darbai = namu_darbai;
-    sort(surikiuoti_namu_darbai.begin(), surikiuoti_namu_darbai.end());
-
-    if (surikiuoti_namu_darbai.size() % 2 == 0) {
-        int vidurinis1 = surikiuoti_namu_darbai[surikiuoti_namu_darbai.size() / 2 - 1];
-        int vidurinis2 = surikiuoti_namu_darbai[surikiuoti_namu_darbai.size() / 2];
-        double mediana = (vidurinis1 + vidurinis2) / 2.0;
-        return 0.4 * mediana + 0.6 * egzamino_rezultatas;
-    } else {
-        int vidurinis = surikiuoti_namu_darbai[surikiuoti_namu_darbai.size() / 2];
-        return 0.4 * vidurinis + 0.6 * egzamino_rezultatas;
-    }
-}
-
-void skaitytiDuomenisIsFailo(const string& failoPavadinimas, vector<Studentas>& studentai) {
-    ifstream failas(failoPavadinimas);
-    if (!failas.is_open()) {
-        cout << "Klaida: Nepavyko atidaryti failo " << failoPavadinimas << endl;
-        return;
-    }
-
-    string eilute;
-    getline(failas, eilute); 
-
-    while (getline(failas, eilute)) {
-        istringstream iss(eilute);
-        Studentas naujasStudentas;
-
-        iss >> naujasStudentas.vardas >> naujasStudentas.pavarde;
-        int balas;
-
-        while (iss >> balas) {
-            naujasStudentas.namu_darbai.push_back(balas);
-        }
-
-        if (naujasStudentas.namu_darbai.size() > 0) {
-            naujasStudentas.egzamino_rezultatas = naujasStudentas.namu_darbai.back();
-            naujasStudentas.namu_darbai.pop_back();
-        }
-
-        studentai.push_back(naujasStudentas);
-    }
-
-    failas.close();
-}
 
 int main() {
     vector<Studentas> studentai;
@@ -124,7 +48,8 @@ int main() {
             cout << "Ar norite ivesti dar viena studenta? (t/n): ";
             cin >> testi;
         } while (testi == 't' || testi == 'T');
-    } else if (pasirinkimas == 'a') {
+    }
+    else if (pasirinkimas == 'a') {
         char testi;
         do {
             Studentas naujasStudentas;
@@ -152,7 +77,8 @@ int main() {
             cout << "Ar norite ivesti dar viena studenta? (t/n): ";
             cin >> testi;
         } while (testi == 't' || testi == 'T');
-    } else if (pasirinkimas == 'f') {
+    }
+    else if (pasirinkimas == 'f') {
         string failoPavadinimas;
         cout << "Iveskite failo pavadinima: ";
         cin >> failoPavadinimas;
@@ -171,8 +97,9 @@ int main() {
         double galutinisMediana = skaiciuotiGalutiniMediana(studentas.namu_darbai, studentas.egzamino_rezultatas);
 
         cout << setw(15) << studentas.vardas << setw(15) << studentas.pavarde << fixed << setprecision(2)
-             << setw(20) << galutinisVidurkiu << setw(20) << galutinisMediana << endl;
+            << setw(20) << galutinisVidurkiu << setw(20) << galutinisMediana << endl;
     }
 
     return 0;
 }
+
