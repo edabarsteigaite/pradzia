@@ -31,14 +31,33 @@ int main() {
             cin >> naujasStudentas.pavarde;
 
             cout << "Iveskite namu darbu rezultatus (iveskite -1, jei norite baigti): ";
+
             int namuDarbuRezultatas;
-            while (true) {
-                cin >> namuDarbuRezultatas;
-                if (namuDarbuRezultatas == -1) {
-                    break;
+
+            do {
+
+                while (true) {
+                    if (!(cin >> namuDarbuRezultatas)) {
+                        cin.clear();
+                        cin.ignore(numeric_limits<streamsize>::max(), '\n');
+                        cout << "Klaida: Netinkama ivestis. Iveskite balus nuo 1 iki 10: ";
+                    }
+                    else if (namuDarbuRezultatas == -1) {
+                        break;
+                    }
+                    else if (namuDarbuRezultatas < 1 || namuDarbuRezultatas > 10) {
+                        cin.clear();
+                        cin.ignore(numeric_limits<streamsize>::max(), '\n');
+                        cout << "Klaida: Netinkamas balas. Iveskite balus nuo 1 iki 10: ";
+                    }
+                    else {
+                        naujasStudentas.namu_darbai.push_back(namuDarbuRezultatas);
+                        break; 
+                    }
                 }
-                naujasStudentas.namu_darbai.push_back(namuDarbuRezultatas);
-            }
+            } while (namuDarbuRezultatas != -1); 
+
+
 
             cout << "Iveskite egzamino rezultata: ";
             cin >> naujasStudentas.egzamino_rezultatas;
@@ -102,4 +121,3 @@ int main() {
 
     return 0;
 }
-
