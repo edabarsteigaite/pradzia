@@ -44,9 +44,9 @@ double skaiciuotiGalutiniMediana(const std::vector<int>& namu_darbai, int egzami
 void skaitytiDuomenisIsFailo(const std::string& failoPavadinimas, std::vector<Studentas>& studentai) {
     std::ifstream failas(failoPavadinimas);
     if (!failas.is_open()) {
-        throw std::runtime_error("Klaida: Nepavyko atidaryti failo " + failoPavadinimas);
+        std::cerr << "Klaida: Failas " << failoPavadinimas << " neegzistuoja arba negalima atidaryti." << std::endl;
+        return;
     }
-
     std::string eilute;
     getline(failas, eilute);
 
