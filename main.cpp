@@ -1,123 +1,53 @@
 #include <iostream>
-#include <vector>
 #include <iomanip>
+#include <string>
+#include "studentas.h"
+#include <vector>
+#include <numeric>
+#include <algorithm>
 #include <ctime>
 #include <cstdlib>
-#include <algorithm> 
-#include "studentas.h"
+#include <fstream>
+#include <chrono>
 
 using namespace std;
-int generuotiAtsitiktiniBalai(int min, int max);
-
-
-int main() {
-    vector<Studentas> studentai;
-
-    srand(time(0));
-
-    char pasirinkimas;
-    cout << "Pasirinkite balu ivedimo buda (r - ranka, a - atsitiktinai, f - nuskaityti is failo): ";
-    cin >> pasirinkimas;
-
-    if (pasirinkimas == 'r') {
-        char testi;
-        do {
-            Studentas naujasStudentas;
-
-            cout << "Iveskite studento varda: ";
-            cin >> naujasStudentas.vardas;
-
-            cout << "Iveskite studento pavarde: ";
-            cin >> naujasStudentas.pavarde;
-
-            cout << "Iveskite namu darbu rezultatus (iveskite -1, jei norite baigti): ";
-
-            int namuDarbuRezultatas;
-
-            do {
-
-                while (true) {
-                    if (!(cin >> namuDarbuRezultatas)) {
-                        cin.clear();
-                        cin.ignore(numeric_limits<streamsize>::max(), '\n');
-                        cout << "Klaida: Netinkama ivestis. Iveskite balus nuo 1 iki 10: ";
-                    }
-                    else if (namuDarbuRezultatas == -1) {
-                        break;
-                    }
-                    else if (namuDarbuRezultatas < 1 || namuDarbuRezultatas > 10) {
-                        cin.clear();
-                        cin.ignore(numeric_limits<streamsize>::max(), '\n');
-                        cout << "Klaida: Netinkamas balas. Iveskite balus nuo 1 iki 10: ";
-                    }
-                    else {
-                        naujasStudentas.namu_darbai.push_back(namuDarbuRezultatas);
-                        break; 
-                    }
-                }
-            } while (namuDarbuRezultatas != -1); 
 
 
 
-            cout << "Iveskite egzamino rezultata: ";
-            cin >> naujasStudentas.egzamino_rezultatas;
-
-            studentai.push_back(naujasStudentas);
-
-            cout << "Ar norite ivesti dar viena studenta? (t/n): ";
-            cin >> testi;
-        } while (testi == 't' || testi == 'T');
+int main()
+{
+    vector <Studentas> studentai;
+    int pasirinkimas;
+    cout << "Pasirinkite ar norite generuoti failus (spauskite 1), ar atlikti testavima su failais (spauskite 2) " << endl;
+    while (!(cin >> pasirinkimas) || pasirinkimas < 0 || pasirinkimas>3)
+    {
+        cout << "Pasirinkite 1 arba 2 ";
+        cin.clear();
+        cin.ignore(numeric_limits<streamsize>::max(), '\n');
     }
-    else if (pasirinkimas == 'a') {
-        char testi;
-        do {
-            Studentas naujasStudentas;
+    if (pasirinkimas == 1)
+    {
+        generavimo_laikas(studentai, 1000, "studentai_1000.txt");
+        generavimo_laikas(studentai, 10000, "studentai_10000.txt");
+        generavimo_laikas(studentai, 100000, "studentai_100000.txt");
+        generavimo_laikas(studentai, 1000000, "studentai_1000000.txt");
+        generavimo_laikas(studentai, 10000000, "studentai_10000000.txt");
 
-            cout << "Iveskite studento varda: ";
-            cin >> naujasStudentas.vardas;
+        cout << "-----------------------------------------------------" << endl;
 
-            cout << "Iveskite studento pavarde: ";
-            cin >> naujasStudentas.pavarde;
-
-            int namuDarbuSkaicius = generuotiAtsitiktiniBalai(1, 10);
-            cout << "Generuoti atsitiktiniai namu darbu rezultatai (" << namuDarbuSkaicius << "): ";
-            for (int i = 0; i < namuDarbuSkaicius; i++) {
-                int balas = generuotiAtsitiktiniBalai(1, 10);
-                naujasStudentas.namu_darbai.push_back(balas);
-                cout << balas << " ";
-            }
-            cout << endl;
-
-            naujasStudentas.egzamino_rezultatas = generuotiAtsitiktiniBalai(1, 10);
-            cout << "Generuotas atsitiktinis egzamino rezultatas: " << naujasStudentas.egzamino_rezultatas << endl;
-
-            studentai.push_back(naujasStudentas);
-
-            cout << "Ar norite ivesti dar viena studenta? (t/n): ";
-            cin >> testi;
-        } while (testi == 't' || testi == 'T');
+        testavimas("studentai_1000.txt", 1000, "kietiakai_1000.txt", "vargsiukai_1000.txt");
+        testavimas("studentai_10000.txt", 10000, "kietiakai_10000.txt", "vargsiukai_10000.txt");
+        testavimas("studentai_100000.txt", 100000, "kietiakai_100000.txt", "vargsiukai_100000.txt");
+        testavimas("studentai_1000000.txt", 1000000, "kietiakai_1000000.txt", "vargsiukai_1000000.txt");
+        testavimas("studentai_10000000.txt", 10000000, "kietiakai_10000000.txt", "vargsiukai_10000000.txt");
     }
-    else if (pasirinkimas == 'f') {
-        string failoPavadinimas;
-        cout << "Iveskite failo pavadinima: ";
-        cin >> failoPavadinimas;
-
-        skaitytiDuomenisIsFailo(failoPavadinimas, studentai);
+    else if (pasirinkimas == 2)
+    {
+        testavimas("studentai_1000.txt", 1000, "kietiakai_1000.txt", "vargsiukai_1000.txt");
+        testavimas("studentai_10000.txt", 10000, "kietiakai_10000.txt", "vargsiukai_10000.txt");
+        testavimas("studentai_100000.txt", 100000, "kietiakai_100000.txt", "vargsiukai_100000.txt");
+        testavimas("studentai_1000000.txt", 1000000, "kietiakai_1000000.txt", "vargsiukai_1000000.txt");
+        testavimas("studentai_10000000.txt", 10000000, "kietiakai_10000000.txt", "vargsiukai_10000000.txt");
     }
-
-    sort(studentai.begin(), studentai.end(), lyginimasPagalVardus);
-
-    cout << "\nGalutiniai rezultatai:\n";
-    cout << left << setw(15) << "Vardas" << setw(15) << "Pavarde" << setw(20) << "Galutinis (Vid.)" << setw(20) << "Galutinis (Med.)" << endl;
-    cout << string(70, '-') << endl;
-
-    for (const Studentas& studentas : studentai) {
-        double galutinisVidurkiu = skaiciuotiGalutiniVidurki(studentas.namu_darbai, studentas.egzamino_rezultatas);
-        double galutinisMediana = skaiciuotiGalutiniMediana(studentas.namu_darbai, studentas.egzamino_rezultatas);
-
-        cout << setw(15) << studentas.vardas << setw(15) << studentas.pavarde << fixed << setprecision(2)
-            << setw(20) << galutinisVidurkiu << setw(20) << galutinisMediana << endl;
-    }
-
     return 0;
 }
