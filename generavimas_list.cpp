@@ -72,7 +72,7 @@ void skaitymas_list(list<StudentasL>& studentaiL, const string& pav) {
 
     try {
         if (!F) {
-            throw runtime_error("nera tokio failo: " + pav);
+            throw runtime_error("Failas neegzistuoja: " + pav);
         }
 
         string line;
@@ -100,7 +100,7 @@ void skaitymas_list(list<StudentasL>& studentaiL, const string& pav) {
         F.close();
     }
     catch (const exception& e) {
-        cerr << "neperskaito...:" << e.what() << endl;
+        cerr << "Nepavyksta nuskaityti failo" << e.what() << endl;
     }
 }
 
