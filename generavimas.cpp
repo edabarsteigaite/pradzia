@@ -1,4 +1,3 @@
-
 #include "studentas.h"
 #include <ctime>
 #include <cstdlib>
