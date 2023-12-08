@@ -69,7 +69,7 @@ void skaitymas_vector(vector<StudentasV>& studentai, const string& pav) {
 
     try {
         if (!F) {
-            throw runtime_error("nera tokio failo: " + pav);
+            throw runtime_error("Failas neegzistuoja: " + pav);
         }
 
         string line;
@@ -97,7 +97,7 @@ void skaitymas_vector(vector<StudentasV>& studentai, const string& pav) {
         F.close();
     }
     catch (const exception& e) {
-        cerr << "neperskaito...:" << e.what() << endl;
+        cerr << "Nepavyksta perskaityti" << e.what() << endl;
     }
 };
 
