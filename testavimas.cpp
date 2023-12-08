@@ -18,7 +18,7 @@ void testavimas_vector(const string& failoPav, int skaicius, const string& kieti
     vector<double> isvedimoVLaikai;
     vector<double> isvedimoKLaikai;
 
-    int kartai = 3;
+    int kartai = 5;
     for (int i = 0; i < kartai; i++) {
         auto start_nuskaitymo_laikas = std::chrono::high_resolution_clock::now();
         skaitymo_laikas_vector(studentaiV, skaicius, failoPav);
@@ -71,7 +71,7 @@ void testavimas_list(const string& failoPav, int skaicius, const string& kietiak
     list<double> isvedimoVLaikai;
     list<double> isvedimoKLaikai;
 
-    int kartai = 3;
+    int kartai = 5;
     for (int i = 0; i < kartai; i++) {
         auto start_nuskaitymo_laikas = std::chrono::high_resolution_clock::now();
         skaitymo_laikas_list(studentaiL, skaicius, failoPav);
