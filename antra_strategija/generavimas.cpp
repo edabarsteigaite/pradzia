@@ -115,16 +115,19 @@ void rusiavimas_list(list<StudentasL>& studentaiL) {
 void rusiavimas_pagal_balus_list(list<StudentasL>& studentaiL, list<StudentasL>& vargsiukai)
 {
     vargsiukai.clear();
-    auto it = remove_if(studentaiL.begin(), studentaiL.end(), [&vargsiukai](const StudentasL& studentas) {
-        if (studentas.galutinisBalas < 5) {
-            vargsiukai.push_back(studentas);
-            return true;
-        }
-        return false;
-        });
 
-    studentaiL.erase(it, studentaiL.end());
+    auto it = studentaiL.begin();
+    while (it != studentaiL.end()) {
+        if (it->galutinisBalas < 5) {
+            vargsiukai.push_back(*it);
+            it = studentaiL.erase(it);
+        }
+        else {
+            ++it;
+        }
+    }
 }
+
 
 
 void isvedimas_vargsiukai_list(const string& failas_vargsiukai, const list<StudentasL>& vargsiukai) {
