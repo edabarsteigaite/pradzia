@@ -44,6 +44,8 @@ void testavimas_vector(const string& failoPav, int skaicius, const string& kieti
         auto end_kietiakai = std::chrono::steady_clock::now();
         std::chrono::duration<double> duration_kietiakai = end_kietiakai - start_kietiaku_laikas;
         isvedimoKLaikai.push_back(duration_kietiakai.count());
+        studentaiV.clear();
+        vargsiukai.clear();
 
     }
 
@@ -94,6 +96,8 @@ void testavimas_list(const string& failoPav, int skaicius, const string& kietiak
         auto end_kietiakai = std::chrono::steady_clock::now();
         std::chrono::duration<double> duration_kietiakai = end_kietiakai - start_kietiaku_laikas;
         isvedimoKLaikai.push_back(duration_kietiakai.count());
+        studentaiL.clear();
+        vargsiukai.clear();
 
     }
 
